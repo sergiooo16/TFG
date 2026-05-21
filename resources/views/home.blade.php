@@ -85,7 +85,7 @@
     ╚══════════════════════════════════════════════════════╝
   -->
   <video id="hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="{{ asset('../public/asstes/videoplayback.mp4') }}" type="video/mp4">
+    <source src="https://res.cloudinary.com/dkx2maawi/video/upload/v1779367169/videoplayback_tplcbi.mp4" type="video/mp4">
   </video>
   <div id="hero-overlay"></div>
 
