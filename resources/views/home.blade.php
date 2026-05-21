@@ -31,10 +31,13 @@
   <style>
     /* ── PILOTOS COLAPSABLE MÓVIL ── */
     #driversCollapse { display:none; }
-    #driversGrid.collapsed { max-height:0; overflow:hidden; }
+    /* Desktop: siempre visible */
+    @media (min-width:768px) {
+      #driversGrid { max-height:none !important; overflow:visible !important; }
+    }
     @media (max-width:767px) {
       #driversCollapse { display:flex; justify-content:center; margin-top:1rem; }
-      #driversGrid.collapsed { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+      #driversGrid.collapsed { max-height:400px; overflow:hidden; transition:max-height .4s ease; }
       #driversGrid.expanded  { max-height:9999px; transition:max-height .6s ease; }
     }
 
@@ -100,20 +103,6 @@
   <a href="#circuits"  onclick="closeMenu()" class="font-bc font-600 tracking-[.15em] text-sm text-gray-300 uppercase">Circuitos</a>
   <a href="#news"      onclick="closeMenu()" class="font-bc font-600 tracking-[.15em] text-sm text-gray-300 uppercase">Noticias</a>
   <a href="#circuits"  onclick="closeMenu()" class="btn-buy text-sm py-2.5 px-5 w-max">Entradas</a>
-  <div class="border-t border-f1border pt-4 flex flex-col gap-3">
-    @auth
-      @if(Auth::user()->is_admin)
-        <a href="{{ url('/admin') }}" class="font-bc font-700 tracking-[.1em] text-xs text-f1r border border-f1r/40 px-4 py-2 rounded-lg uppercase w-max">Panel Admin</a>
-      @endif
-      <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit" class="font-bc font-700 text-xs text-gray-300 border border-gray-700 px-4 py-2 rounded-lg uppercase">{{ Auth::user()->name }} · Logout</button>
-      </form>
-    @else
-      <a href="{{ route('login') }}" class="font-bc font-700 tracking-[.1em] text-xs text-gray-300 border border-gray-700 px-4 py-2 rounded-lg uppercase w-max">Login</a>
-      <a href="{{ route('register') }}" class="font-bc font-700 tracking-[.1em] text-xs text-white bg-gray-800 border border-gray-600 px-4 py-2 rounded-lg uppercase w-max">Register</a>
-    @endauth
-  </div>
 </div>
 
 <!-- ══════════════ HERO ══════════════ -->
@@ -330,6 +319,7 @@
   const API_RUMORS_URL = '{{ url("/api/f1-rumors") }}';
 
   function toggleDrivers(btn) {
+    if (window.innerWidth >= 768) return;
     const grid = document.getElementById('driversGrid');
     const expanded = grid.classList.contains('expanded');
     if (expanded) {
