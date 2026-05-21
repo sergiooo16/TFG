@@ -8,7 +8,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script>
-
     tailwind.config = {
       theme: {
         extend: {
@@ -28,8 +27,35 @@
       }
     }
   </script>
-  {{-- Estilos F1 --}}
   <link rel="stylesheet" href="{{ asset('css/f1.css') }}">
+  <style>
+    /* ── PILOTOS COLAPSABLE MÓVIL ── */
+    #driversCollapse { display:none; }
+    #driversGrid.collapsed { max-height:0; overflow:hidden; }
+    @media (max-width:767px) {
+      #driversCollapse { display:flex; justify-content:center; margin-top:1rem; }
+      #driversGrid.collapsed { max-height:0; overflow:hidden; transition:max-height .4s ease; }
+      #driversGrid.expanded  { max-height:9999px; transition:max-height .6s ease; }
+    }
+
+    /* ── CIRCUITOS CARRUSEL MÓVIL ── */
+    @media (max-width:767px) {
+      #circuitsGrid {
+        display:flex !important;
+        flex-wrap:nowrap !important;
+        overflow-x:auto !important;
+        gap:14px !important;
+        padding-bottom:12px;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling:touch;
+      }
+      #circuitsGrid::-webkit-scrollbar { display:none; }
+      #circuitsGrid > * {
+        flex:0 0 78vw;
+        scroll-snap-align:start;
+      }
+    }
+  </style>
 </head>
 <body class="font-barlow">
 
@@ -50,7 +76,7 @@
         @if(Auth::user()->is_admin)
             <a href="{{ url('/admin') }}" class="hidden sm:inline-block font-bc font-700 tracking-[.1em] text-xs text-f1r border border-f1r/40 hover:bg-f1r hover:text-white px-4 py-2 rounded-lg transition-all uppercase">Panel Admin</a>
         @endif
-        @endauth
+    @endauth
     <a href="#circuits" class="btn-buy text-sm py-2.5 px-5 hidden sm:inline-block">Entradas</a>
     @guest
       <a href="{{ route('login') }}" class="hidden sm:inline-block font-bc font-700 tracking-[.1em] text-xs text-gray-300 hover:text-white border border-gray-700 px-4 py-2 rounded-lg uppercase">Login</a>
@@ -78,27 +104,16 @@
 
 <!-- ══════════════ HERO ══════════════ -->
 <section id="hero">
-  <!--
-    ╔══════════════════════════════════════════════════════╗
-    ║  CAMBIA EL SRC POR LA RUTA DE TU VÍDEO              ║
-    ║  Laravel: <source src="{{ asset('videos/hero.mp4') }}" type="video/mp4">  ║
-    ╚══════════════════════════════════════════════════════╝
-  -->
   <video id="hero-video" autoplay muted loop playsinline preload="auto">
     <source src="https://res.cloudinary.com/dkx2maawi/video/upload/v1779367169/videoplayback_tplcbi.mp4" type="video/mp4">
   </video>
   <div id="hero-overlay"></div>
-
-  <!-- Líneas de velocidad -->
   <div class="speed-line" style="top:30%;width:50%;animation-duration:3.5s;animation-delay:0s;"></div>
   <div class="speed-line" style="top:47%;width:72%;animation-duration:4.2s;animation-delay:.9s;"></div>
   <div class="speed-line" style="top:63%;width:44%;animation-duration:2.9s;animation-delay:1.8s;"></div>
-
-
-
   <div class="hero-content text-center px-6 max-w-2xl mx-auto" style="position:absolute; bottom:10%; left:50%; transform:translateX(-50%); width:100%;">
-  <!-- Cuenta atrás -->
-    <div class="fade-up flex flex-wrap gap-3 justify-center mb-10 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4" id="countdown-wrap" style="animation-delay:.5s">      <div class="cd-box px-5 py-3 text-center">
+    <div class="fade-up flex flex-wrap gap-3 justify-center mb-10 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4" id="countdown-wrap" style="animation-delay:.5s">
+      <div class="cd-box px-5 py-3 text-center">
         <div class="font-bc font-700 tracking-[.18em] text-f1r text-xs uppercase mb-1">Próxima carrera · 🇨🇦 Canadá</div>
         <div class="font-bc font-700 text-white text-sm tracking-wide">22–24 Mayo 2026</div>
       </div>
@@ -119,12 +134,10 @@
         <div class="font-bc text-f1r text-xs tracking-[.15em] uppercase mt-1">seg</div>
       </div>
     </div>
-
     <div class="fade-up flex gap-4 flex-wrap justify-center" style="animation-delay:.65s">
-      <a href="#drivers"  class="btn-buy" style="font-size:1.4rem; padding: 18px 50px;">Ver Pilotos</a>
+      <a href="#drivers" class="btn-buy" style="font-size:1.4rem; padding: 18px 50px;">Ver Pilotos</a>
     </div>
   </div>
-
 </section>
 
 <!-- ══════════════ STATS ══════════════ -->
@@ -162,7 +175,17 @@
       <button class="tab-btn" onclick="setTeamFilter(this,'cadillac')">Cadillac</button>
     </div>
   </div>
-  <div id="driversGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+
+  {{-- Grid colapsable en móvil --}}
+  <div id="driversGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 collapsed"></div>
+
+  {{-- Botón expandir/colapsar solo en móvil --}}
+  <div id="driversCollapse" class="mt-6">
+    <button onclick="toggleDrivers(this)"
+      class="font-bc font-700 tracking-[.1em] text-sm px-8 py-3 rounded-lg border border-f1r text-f1r uppercase transition-all hover:bg-f1r hover:text-white">
+      Ver todos los pilotos ↓
+    </button>
+  </div>
 </section>
 
 <!-- ══════════════ CLASIFICACIÓN ══════════════ -->
@@ -221,7 +244,10 @@
     <h2 class="sec-title text-5xl md:text-6xl text-white">Circuitos & Entradas</h2>
     <p class="font-barlow text-gray-500 mt-3 max-w-xl">Escoge tu Gran Premio, elige la entrada y vive la Fórmula 1 desde dentro.</p>
   </div>
+  {{-- Carrusel en móvil, grid en desktop --}}
   <div id="circuitsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+  {{-- Indicador de scroll solo en móvil --}}
+  <p class="md:hidden text-center text-gray-600 font-bc text-xs tracking-[.12em] uppercase mt-4">← Desliza para ver más →</p>
 </section>
 
 <!-- ══════════════ NOTICIAS ══════════════ -->
@@ -288,6 +314,20 @@
   const CIRCUITS = @json($circuitosData);
   const API_NEWS_URL   = '{{ url("/api/f1-news") }}';
   const API_RUMORS_URL = '{{ url("/api/f1-rumors") }}';
+
+  function toggleDrivers(btn) {
+    const grid = document.getElementById('driversGrid');
+    const expanded = grid.classList.contains('expanded');
+    if (expanded) {
+      grid.classList.remove('expanded');
+      grid.classList.add('collapsed');
+      btn.textContent = 'Ver todos los pilotos ↓';
+    } else {
+      grid.classList.remove('collapsed');
+      grid.classList.add('expanded');
+      btn.textContent = 'Ocultar pilotos ↑';
+    }
+  }
 </script>
 <script src="{{ asset('js/f1.js') }}"></script>
 </body>
