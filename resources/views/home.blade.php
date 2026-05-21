@@ -137,7 +137,7 @@
   <div class="speed-line" style="top:47%;width:72%;animation-duration:4.2s;animation-delay:.9s;"></div>
   <div class="speed-line" style="top:63%;width:44%;animation-duration:2.9s;animation-delay:1.8s;"></div>
   <div class="hero-content text-center px-6 max-w-2xl mx-auto" style="position:absolute; bottom:10%; left:50%; transform:translateX(-50%); width:100%;">
-    <div class="fade-up flex flex-wrap gap-3 justify-center mb-10 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4" id="countdown-wrap" style="animation-delay:.5s">
+    <div class="fade-up flex flex-wrap gap-3 justify-center mb-10 bg-black/20 backdrop-blur-sm rounded-2xl px-6 py-4" id="countdown-wrap" style="animation-delay:.5s">
       <div class="cd-box px-5 py-3 text-center">
         <div class="font-bc font-700 tracking-[.18em] text-f1r text-xs uppercase mb-1">Próxima carrera · 🇨🇦 Canadá</div>
         <div class="font-bc font-700 text-white text-sm tracking-wide">22–24 Mayo 2026</div>
