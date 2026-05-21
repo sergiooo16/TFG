@@ -131,7 +131,7 @@
     <source src="https://res.cloudinary.com/dkx2maawi/video/upload/v1779367169/videoplayback_tplcbi.mp4" type="video/mp4">
   </video>
   {{-- Imagen de fondo para móvil --}}
-  <div id="hero-mobile-bg" style="display:none;position:absolute;inset:0;background:url('{{ asset('asstes/fondoMovil.jpg') }}') center center/cover no-repeat;"></div>
+  <div id="hero-mobile-bg" style="display:none;position:absolute;inset:0;background:url('{{ asset('asstes/fondoMovill.jpg') }}') center center/cover no-repeat;"></div>
   <div id="hero-overlay"></div>
   <div class="speed-line" style="top:30%;width:50%;animation-duration:3.5s;animation-delay:0s;"></div>
   <div class="speed-line" style="top:47%;width:72%;animation-duration:4.2s;animation-delay:.9s;"></div>
