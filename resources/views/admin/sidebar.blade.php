@@ -1,6 +1,6 @@
-<aside style="width:240px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;padding:0;display:flex;flex-direction:column;">
+<aside id="admin-sidebar" style="width:240px;min-height:100vh;background:#fff;border-right:1px solid #e5e7eb;padding:0;display:flex;flex-direction:column;">
 
-  <div style="padding:24px 20px;border-bottom:1px solid #f3f4f6;">
+  <div style="padding:24px 20px;border-bottom:1px solid #f3f4f6;display:flex;align-items:center;justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:10px;">
       <div style="width:36px;height:36px;background:#E8002D;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:#fff;font-size:1.1rem;flex-shrink:0;">F1</div>
       <div>
@@ -8,35 +8,39 @@
         <div style="font-family:'Barlow';font-size:.72rem;color:#9ca3af;">Formula 1 · 2026</div>
       </div>
     </div>
+    {{-- Botón cerrar sidebar en móvil --}}
+    <button id="sidebar-close" onclick="toggleSidebar()" style="display:none;background:none;border:none;cursor:pointer;padding:4px;">
+      <svg width="20" height="20" fill="none" stroke="#6b7280" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
   <nav style="padding:16px 12px;flex:1;display:flex;flex-direction:column;gap:2px;">
     <div style="font-family:'Barlow Condensed';font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af;padding:8px 8px 4px;">Principal</div>
-    <a href="{{ route('admin.dashboard') }}" class="adm-link {{ request()->routeIs('admin.dashboard') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.dashboard') }}" class="adm-link {{ request()->routeIs('admin.dashboard') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
       Dashboard
     </a>
 
     <div style="font-family:'Barlow Condensed';font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af;padding:12px 8px 4px;">Contenido</div>
-    <a href="{{ route('admin.circuitos') }}" class="adm-link {{ request()->routeIs('admin.circuitos*') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.circuitos') }}" class="adm-link {{ request()->routeIs('admin.circuitos*') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/></svg>
       Circuitos
     </a>
-    <a href="{{ route('admin.rumores') }}" class="adm-link {{ request()->routeIs('admin.rumores*') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.rumores') }}" class="adm-link {{ request()->routeIs('admin.rumores*') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       Rumores
     </a>
-    <a href="{{ route('admin.noticias') }}" class="adm-link {{ request()->routeIs('admin.noticias*') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.noticias') }}" class="adm-link {{ request()->routeIs('admin.noticias*') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Noticias
     </a>
 
     <div style="font-family:'Barlow Condensed';font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:#9ca3af;padding:12px 8px 4px;">Sistema</div>
-    <a href="{{ route('admin.usuarios') }}" class="adm-link {{ request()->routeIs('admin.usuarios*') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.usuarios') }}" class="adm-link {{ request()->routeIs('admin.usuarios*') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Usuarios
     </a>
-    <a href="{{ route('admin.log') }}" class="adm-link {{ request()->routeIs('admin.log') ? 'adm-active' : '' }}">
+    <a href="{{ route('admin.log') }}" class="adm-link {{ request()->routeIs('admin.log') ? 'adm-active' : '' }}" onclick="closeSidebarMobile()">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       Log actividad
     </a>
@@ -64,8 +68,83 @@
   </div>
 </aside>
 
+{{-- Overlay para cerrar sidebar en móvil --}}
+<div id="sidebar-overlay" onclick="toggleSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40;"></div>
+
 <style>
   .adm-link{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:#6b7280;text-decoration:none;transition:all .2s;}
   .adm-link:hover{background:#f9fafb;color:#111;}
   .adm-active{background:#fff1f2;color:#E8002D !important;border-left:3px solid #E8002D;padding-left:7px;}
+
+  /* ── RESPONSIVE ADMIN ── */
+  @media (max-width:767px) {
+    #admin-sidebar {
+      position:fixed !important;
+      top:0; left:0;
+      z-index:50;
+      transform:translateX(-100%);
+      transition:transform .3s ease;
+      width:260px !important;
+      box-shadow:4px 0 20px rgba(0,0,0,.15);
+    }
+    #admin-sidebar.open {
+      transform:translateX(0);
+    }
+    #sidebar-close { display:block !important; }
+    #admin-topbar { display:flex !important; }
+    .admin-main { margin-left:0 !important; }
+  }
+
+  /* Topbar móvil */
+  #admin-topbar {
+    display:none;
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:30;
+    background:#fff;
+    border-bottom:1px solid #e5e7eb;
+    padding:12px 16px;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  @media (max-width:767px) {
+    body { padding-top:56px; }
+    /* Tablas scrollables en móvil */
+    table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    /* Grids en móvil: 1 columna */
+    .grid.grid-cols-2, .grid.lg\\:grid-cols-4 { grid-template-columns:1fr !important; }
+    /* Padding reducido */
+    main { padding:16px !important; }
+  }
 </style>
+
+{{-- Topbar móvil --}}
+<div id="admin-topbar">
+  <button onclick="toggleSidebar()" style="background:none;border:none;cursor:pointer;padding:4px;">
+    <svg width="22" height="22" fill="none" stroke="#111" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div style="width:28px;height:28px;background:#E8002D;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:#fff;font-size:.9rem;">F1</div>
+    <span style="font-family:'Barlow Condensed';font-weight:800;color:#111;font-size:.85rem;letter-spacing:.05em;text-transform:uppercase;">Admin Panel</span>
+  </div>
+  <div style="width:32px;"></div>
+</div>
+
+<script>
+  function toggleSidebar() {
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    sidebar.classList.toggle('open');
+    overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+  }
+  function closeSidebarMobile() {
+    if (window.innerWidth < 768) {
+      const sidebar = document.getElementById('admin-sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.remove('open');
+      overlay.style.display = 'none';
+    }
+  }
+</script>
