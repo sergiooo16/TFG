@@ -21,7 +21,6 @@ class NewsController extends Controller
 
     public function index(): JsonResponse
     {
-        // 1. Noticias propias del admin (siempre van primero)
         $adminNews = Noticia::where('activo', 1)
             ->orderByDesc('id')
             ->get()
@@ -35,7 +34,6 @@ class NewsController extends Controller
             ])
             ->toArray();
 
-        // 2. Noticias RSS (desde caché si existe)
         $rssNews = Cache::get('f1_news_es', []);
 
         if (empty($rssNews)) {

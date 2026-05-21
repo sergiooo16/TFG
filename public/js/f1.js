@@ -73,17 +73,11 @@ const FB_CONSTR=[
   {pos:11,team:'Cadillac',pts:0,tk:'cadillac'},
 ];
 
-// ════════════════════════════════════════
-// NAVBAR
-// ════════════════════════════════════════
 window.addEventListener('scroll',()=>document.getElementById('navbar').classList.toggle('scrolled',scrollY>60));
 function toggleMenu(){const m=document.getElementById('mobileMenu');m.classList.toggle('hidden');m.classList.toggle('flex');}
 function closeMenu(){const m=document.getElementById('mobileMenu');m.classList.add('hidden');m.classList.remove('flex');}
 document.addEventListener('click',function(e){const w=document.getElementById('userMenuWrap');if(w&&!w.contains(e.target))document.getElementById('userDropdown')?.classList.add('hidden');});
 
-// ════════════════════════════════════════
-// COUNTDOWN — hardcodeado, pasa al siguiente automáticamente
-// ════════════════════════════════════════
 const RACE_DATES = [
   { name:'Gran Premio de Australia',    flag:'🇦🇺', short:'Australia',   date:'2026-03-15T05:00:00Z' },
   { name:'Gran Premio de China',        flag:'🇨🇳', short:'China',        date:'2026-03-22T07:00:00Z' },
@@ -141,15 +135,9 @@ function tick() {
 }
 tick(); setInterval(tick, 1000);
 
-// ════════════════════════════════════════
-// REVEAL
-// ════════════════════════════════════════
 const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:.08});
 function observeAll(){document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));}
 
-// ════════════════════════════════════════
-// DRIVERS
-// ════════════════════════════════════════
 let activeTeam='all';
 function renderDrivers(team='all',search=''){
   const g=document.getElementById('driversGrid');g.innerHTML='';
@@ -198,9 +186,6 @@ function setTeamFilter(btn,team){
   btn.classList.add('active');activeTeam=team;filterDrivers();
 }
 
-// ════════════════════════════════════════
-// STANDINGS
-// ════════════════════════════════════════
 function tkFrom(id=''){
   id=id.toLowerCase();
   if(id.includes('mclaren'))return 'mclaren';
@@ -268,9 +253,6 @@ function switchTab(tab,btn){
   document.getElementById('s-constructor').classList.toggle('hidden',tab!=='constructors');
 }
 
-// ════════════════════════════════════════
-// CIRCUITS
-// ════════════════════════════════════════
 function renderCircuits(){
   const g=document.getElementById('circuitsGrid');
   CIRCUITS.forEach((c,i)=>{
@@ -307,9 +289,6 @@ function renderCircuits(){
   });
 }
 
-// ════════════════════════════════════════
-// MODAL ENTRADAS
-// ════════════════════════════════════════
 let curC=null,selTier='grand',qty=1;
 const TIERS=[
   {id:'ga',     icon:'🏁',name:'General',   price:'ga',  desc:'Acceso general a todas las zonas de pie. Sin asiento asignado.'},
@@ -398,9 +377,6 @@ function buyNow(){
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';qty=1;}
 function overlayClose(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
 
-// ════════════════════════════════════════
-// NOTICIAS
-// ════════════════════════════════════════
 const NEWS_BG    = ['#0d0812','#080d14','#0d0808','#080d0d','#0d0d08','#10080d'];
 const NEWS_ICONS = ['🏎️','🏁','⚙️','🏆','🔧','📡'];
 
@@ -449,9 +425,6 @@ function renderNews(articles) {
   });
 }
 
-// ════════════════════════════════════════
-// RUMORES
-// ════════════════════════════════════════
 async function loadRumors() {
   try {
     const r = await fetch(API_RUMORS_URL);
@@ -499,9 +472,6 @@ function renderRumors(rumors) {
   });
 }
 
-// ════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════
 document.addEventListener('DOMContentLoaded',()=>{
   renderDrivers();renderCircuits();loadStandings();loadNews();loadRumors();observeAll();
 });
